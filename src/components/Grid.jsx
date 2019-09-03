@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { LineChart, Line, Brush,Legend, ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 export default class Grid extends PureComponent {
 	constructor(props) {
@@ -23,6 +23,8 @@ export default class Grid extends PureComponent {
 
 	render() {
 		console.log(this.props);
+        console.log(this.state.data);
+       
 		return (
 			<ScatterChart
 				width={500}
@@ -35,10 +37,14 @@ export default class Grid extends PureComponent {
 				}}
 			>
 				<CartesianGrid />
-				<XAxis  type="number" dataKey="x" name="x" />
-				<YAxis  yAxisId="left" type="number" dataKey="y" name="y" stroke="#8884d8" />
+				<XAxis type="number" tickCount={10} interval={0} dataKey="x" name="x" domain={[0, 10]} />
+				<YAxis yAxisId="left" tickCount={10} interval={0} type="number" dataKey="y" name="y" stroke="#8884d8" domain={[0, 10]} />
 				<Tooltip cursor={{ strokeDasharray: '3 3' }} />
-				<Scatter yAxisId="left" name="A school" data={this.state.data} fill="#8884d8" />
+				<LineChart width={400} height={400} data={this.state.data}>
+					<Line type="monotone" dataKey={this.state.data} stroke="#8884d8" />
+				</LineChart>
+				<Scatter yAxisId="left" name="position" data={this.state.data} fill="#8884d8" line lineType="joint" shape="dot" />
+
 			</ScatterChart>
 		);
 	}

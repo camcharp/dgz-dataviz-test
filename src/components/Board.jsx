@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Grid from './Grid';
+import Grid2 from './Grid2';
 import trajectoires from '../trajectoires.json';
 
 let sortedTrajectories = [];
@@ -36,6 +37,7 @@ export default class Board extends Component {
 
 	render() {
 		console.log(this.state.trajectoires);
+		console.log(this.state.client);
 		const clients = this.state.trajectoires.map((client, index) => {
 			return (
 				<option name="client" key={index} value={client.id} onChange={this.handleChange}>
@@ -43,6 +45,11 @@ export default class Board extends Component {
 				</option>
 			);
 		});
+		let howManyStops = 0;
+		if (this.state.client) {
+            howManyStops = this.state.client.points.length - 1;
+			console.log(howManyStops);
+		}
 		return (
 			<React.Fragment>
 				<h1>Visualiser les clients</h1>
@@ -50,6 +57,15 @@ export default class Board extends Component {
 				<select id="select-client" onChange={this.handleChange}>
 					{clients}}
 				</select>
+
+				{this.state.client != null ? (
+					<div>
+						<h2>Selected client: {this.state.client.id}</h2>
+						{/* <h3>Durée du parcours: </h3>
+						<h3>Vitesse moyenne</h3>
+						<h3>Nombre d’arrêts : {{howManyStops}}</h3> */}
+					</div>
+				) : null}
 				<Grid data={this.state.client} />
 			</React.Fragment>
 		);
